@@ -1,9 +1,10 @@
-import { CartItem } from "@/pages/DetailPage";
-import { Restaurant } from "@/types";
-import { CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Separator } from "./ui/separator";
 import { Trash } from "lucide-react";
+
+import { Badge } from "./ui/badge";
+import { Restaurant } from "@/types";
+import { Separator } from "./ui/separator";
+import { CartItem } from "@/pages/DetailPage";
+import { CardContent, CardHeader, CardTitle } from "./ui/card";
 
 type Props = {
   restaurant: Restaurant;
@@ -37,7 +38,7 @@ export const OrderSummary = ({
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
         {cartItems.map((item) => (
-          <div className="flex justify-between">
+          <div className="flex justify-between" key={item.name}>
             <span>
               <Badge variant="outline" className="mr-2">
                 {item.quantity}
@@ -51,14 +52,14 @@ export const OrderSummary = ({
                 size={20}
                 onClick={() => removeFromCart(item)}
               />
-              £{((item.price * item.quantity) / 100).toFixed(2)}
+              &pound;{((item.price * item.quantity) / 100).toFixed(2)}
             </span>
           </div>
         ))}
         <Separator />
         <div className="flex justify-between">
           <span>Delivery</span>
-          <span>£{(restaurant.deliveryPrice / 100).toFixed(2)}</span>
+          <span>&pound;{(restaurant.deliveryPrice / 100).toFixed(2)}</span>
         </div>
         <Separator />
       </CardContent>

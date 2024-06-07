@@ -9,7 +9,7 @@ import { useCreateCheckoutSession } from "@/api/OrderApi";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { RestaurantInfo } from "@/components/RestaurantInfo";
 import { CheckoutButton } from "@/components/CheckoutButton";
-import { MenuItemComponent } from "@/components/MenuItemComponent";
+import { MenuItem } from "@/components/MenuItem";
 import { UserFormData } from "@/components/forms/user-profile-form/UserProfileForm";
 
 export type CartItem = {
@@ -122,29 +122,28 @@ const DetailPage = () => {
           <RestaurantInfo restaurant={restaurant} />
           <span className="text-2xl font-bold tracking-tight">Menu</span>
           {restaurant.menuItems.map((menuItem) => (
-            <MenuItemComponent
+            <MenuItem
+              key={menuItem._id}
               menuItem={menuItem}
               addToCart={() => addToCart(menuItem)}
             />
           ))}
         </div>
 
-        <div>
-          <Card>
-            <OrderSummary
-              restaurant={restaurant}
-              cartItems={cartItems}
-              removeFromCart={removeFromCart}
+        <Card>
+          <OrderSummary
+            restaurant={restaurant}
+            cartItems={cartItems}
+            removeFromCart={removeFromCart}
+          />
+          <CardFooter>
+            <CheckoutButton
+              disabled={cartItems.length === 0}
+              onCheckout={onCheckout}
+              isLoading={isCheckoutLoading}
             />
-            <CardFooter>
-              <CheckoutButton
-                disabled={cartItems.length === 0}
-                onCheckout={onCheckout}
-                isLoading={isCheckoutLoading}
-              />
-            </CardFooter>
-          </Card>
-        </div>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );
